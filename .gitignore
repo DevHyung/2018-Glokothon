@@ -4,3 +4,5 @@ ngrok
 Util.py
 test.py
 chromedriver
+*.txt
+__pycache__/
