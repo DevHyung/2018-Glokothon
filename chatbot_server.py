@@ -3,34 +3,27 @@ from flask import request
 from flask import jsonify
 from flask import json
 import Util
-#=== CONFIG
-#Util.update_db() #init
-
+#=== CONFIG VAR
+Util.update_db() #init
 USER_DICT,BABY_DICT,AGE_DICT = Util.get_all_data()
-
-
 button_List = ["의료 정보","음식 정보","태교 정보"]
 #====================
 app = Flask(__name__)
-
 @app.route("/keyboard")
 def keyboard():
     return jsonify(type="text")
-
 
 @app.route("/message", methods=["POST"])
 def message():
     global USER_DICT,BABY_DICT,AGE_DICT
     data = json.loads(request.data)
     content = data["content"]
-
     if data['user_key'] not in USER_DICT.keys():
         USER_DICT[data['user_key']] = {'IS_TALK_MODE':False}
         BABY_DICT[data['user_key']] = ''
-    print(data)
-    print(USER_DICT)
-    print(BABY_DICT)
-    ###
+        AGE_DICT[data['user_key']] = ''
+
+    ### Code
     if content == '아기랑 대화하기' and not USER_DICT[data['user_key']]['IS_TALK_MODE']:#대화모드를 맨처음 클릭하셨을때
         USER_DICT[data['user_key']]['IS_TALK_MODE'] = True
         response = Util.return_res_by_code(1)
@@ -51,6 +44,7 @@ def message():
         response = Util.return_res_by_code(0)
         babyname, age = content.split(',')
         BABY_DICT[data['user_key']] =babyname
+        AGE_DICT[data['user_key']] = age
         Util.register_baby(data['user_key'],babyname.strip(),age.strip())
         response['message']['text'] = '{}(이)의 정보가 입력되었습니다 ~'.format(babyname)
     elif content == '태교 정보':
@@ -64,10 +58,7 @@ def message():
         response['message']['text'] = Util.recommend_food()
     else: # 기본 FAQ 모드일때
         response = Util.return_res_by_code(0)
-
-    #translated = translator.translate(content, dest="en", src="ko")
-    #result = translated.text
-    ###
+    # return res
     response = json.dumps(response, ensure_ascii=False)
     return response
 
