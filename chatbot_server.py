@@ -6,8 +6,7 @@ import Util
 #=== CONFIG
 #Util.update_db() #init
 
-USER_DICT = {} #User Queue  역할
-BABY_DICT = Util.get_all_data()
+USER_DICT,BABY_DICT,AGE_DICT = Util.get_all_data()
 
 
 button_List = ["의료 정보","음식 정보","태교 정보"]
@@ -21,7 +20,7 @@ def keyboard():
 
 @app.route("/message", methods=["POST"])
 def message():
-    global USER_DICT,BABY_DICT
+    global USER_DICT,BABY_DICT,AGE_DICT
     data = json.loads(request.data)
     content = data["content"]
 
@@ -56,7 +55,13 @@ def message():
         response['message']['text'] = '{}(이)의 정보가 입력되었습니다 ~'.format(babyname)
     elif content == '태교 정보':
         response = Util.return_res_by_code(0)
-        response['message']['text'] = recommend_tagyo()
+        response['message']['text'] = Util.recommend_tagyo()
+    elif content == '의료 정보':
+        response = Util.return_res_by_code(0)
+        response['message']['text'] = Util.recommend_medi(AGE_DICT[data['user_key']])
+    elif content == '음식 정보':
+        response = Util.return_res_by_code(0)
+        response['message']['text'] = Util.recommend_food()
     else: # 기본 FAQ 모드일때
         response = Util.return_res_by_code(0)
 
