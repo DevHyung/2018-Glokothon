@@ -2,10 +2,9 @@ from flask import Flask
 from flask import request
 from flask import jsonify
 from flask import json
-from googletrans import Translator
 import Util
 #=== CONFIG
-Util.update_db() #init
+#Util.update_db() #init
 
 USER_DICT = {} #User Queue  역할
 BABY_DICT = Util.get_all_data()
@@ -13,9 +12,7 @@ BABY_DICT = Util.get_all_data()
 
 button_List = ["의료 정보","음식 정보","태교 정보"]
 #====================
-translator = Translator()
 app = Flask(__name__)
-
 
 @app.route("/keyboard")
 def keyboard():
