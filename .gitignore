@@ -2,3 +2,5 @@
 ngrok
 .idea/
 Util.py
+test.py
+chromedriver
