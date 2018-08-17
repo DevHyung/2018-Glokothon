@@ -54,6 +54,9 @@ def message():
         BABY_DICT[data['user_key']] =babyname
         Util.register_baby(data['user_key'],babyname.strip(),age.strip())
         response['message']['text'] = '{}(이)의 정보가 입력되었습니다 ~'.format(babyname)
+    elif content == '태교 정보':
+        response = Util.return_res_by_code(0)
+        response['message']['text'] = recommend_tagyo()
     else: # 기본 FAQ 모드일때
         response = Util.return_res_by_code(0)
 
