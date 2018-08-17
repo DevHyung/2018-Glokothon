@@ -1,0 +1,38 @@
+# DB SCHEMA
+
+CREATE TABLE `glokothon`.`user` (
+  `userKey` VARCHAR(45) NOT NULL,
+  `babyName` VARCHAR(45) NULL,
+  `firstAge` INT NULL,
+  `firstInsertDate` DATE NULL,
+  `nowAge` INT NULL,
+  `nowUpdateDate` DATE NULL,
+  PRIMARY KEY (`userKey`));
+)
+
+CREATE TABLE `glokothon`.`user_talk` (
+  `userKey` varchar(45) NOT NULL,
+  `babyName` varchar(45) DEFAULT NULL,
+  `content` text,
+  `contentType` int(11) DEFAULT NULL,
+  `insertDate` datetime DEFAULT NULL,
+  PRIMARY KEY (`userKey`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+/*-EVENT 사용*/
+SET GLOBAL event_scheduler = ON;
+SET @@global.event_scheduler = ON;
+SET GLOBAL event_scheduler = 1;
+SET @@global.event_scheduler = 1;
+
+
+/*-EVENT 사용하지 않기-=*/
+SET GLOBAL event_scheduler = OFF;
+SET @@global.event_scheduler = OFF;
+SET GLOBAL event_scheduler = 0;
+SET @@global.event_scheduler = 0;
+
+//
+grant all privileges on *.* to 'root'@'%' identified by 'autoset';
+
+//
