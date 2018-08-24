@@ -15,9 +15,8 @@ def keyboard():
 @app.route("/message", methods=["POST"])
 def message():
 
+    print(request.data)
     data = json.loads(request.data)
-
-
     print(request.headers)
     # request.headers['X-Forwarded-For'] = '110.76.143.234'
     print(request.data)
